@@ -17,8 +17,6 @@ public class Part {
     private readonly Dictionary<string, Marker> markerLookup = new();
     public IReadOnlyDictionary<string, Marker> Markers => markerLookup;
 
-    public List<TempPart> childsDescendants;
-
     public Part(string partName, Transform transform) {
         Name = partName;
         LocalTransform = transform;
@@ -44,12 +42,11 @@ public class Part {
 
     // Flattens a many layerd higharchical structure into 1d <List>
     public List<string> ReturnAllChildren(Part part) {
-        List<string> res = new List<string>();
+        List<string> result = new List<string>();
         foreach (Part child in part.Children) {
-            childsDescendants = new List<TempPart>();
-            AssignToTempParts(child, ref childsDescendants);
+            AssignToTempParts(child, ref result);
         }
-        return res;
+        return result;
     }
 
     // Takes in a part and accuratley models a copy in temp part of all the children to the nth generation
