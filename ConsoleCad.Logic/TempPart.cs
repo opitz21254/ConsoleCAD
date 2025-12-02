@@ -6,7 +6,8 @@ namespace ConsoleCad.Logic;
 // (stored as absolute coordinates) are baised off of.
 public class TempPart {
     public string TempPartName { get; }
-    public bool AccountedFor = false;
+    public List<string> ChildrenAccountedFor { get; private set; } = new List<string>();
+    public TempPart Parent { get; private set; }
     public List<TempPart> Children { get; } = new();
 
     public TempPart(string tempPartName) {
@@ -14,14 +15,15 @@ public class TempPart {
     }
 
     public TempPart AddChild(string name) {
-        var child = new TempPart(name);
+        var child = new TempPart(name) {
+        Parent = this
+        };
         Children.Add(child);
-        HasChildren = true;
         return child;
     }
 
     public bool ProcessPart() {
-        AccountedFor = true;
+        Parent.ChildrenAccountedFor.Add(TempPartName);
         return true;
     }
 }

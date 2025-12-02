@@ -17,7 +17,7 @@ public class Part {
     private readonly Dictionary<string, Marker> markerLookup = new();
     public IReadOnlyDictionary<string, Marker> Markers => markerLookup;
 
-    public List<TempPart> childsChildren;
+    public List<TempPart> childsDescendants;
 
     public Part(string partName, Transform transform) {
         Name = partName;
@@ -43,37 +43,34 @@ public class Part {
     }
 
     // Flattens a many layerd higharchical structure into 1d <List>
-    public bool ReturnAllChildren(out List<string> partsChildren) {
-        foreach (Part child in Children) {
-            childsChildren = new List<TempPart>();
-            AssignToTempParts(child, ref childsChildren);
-            return true;
+    public List<string> ReturnAllChildren(Part part) {
+        List<string> res = new List<string>();
+        foreach (Part child in part.Children) {
+            childsDescendants = new List<TempPart>();
+            AssignToTempParts(child, ref childsDescendants);
         }
+        return res;
     }
 
-    public bool AssignToTempParts(Part realPart, ref List<TempPart> tempChildren) {
+    // Takes in a part and accuratley models a copy in temp part of all the children to the nth generation
+    public bool AssignToTempParts(Part realPart, ref List<string> res) {
         TempPart tempPart = new TempPart(realPart.Name);
-
         bool exit = false; //Might not need
-        int n = 0;
 
-        do {
+        foreach(Part child in realPart.Children) {
             if (realPart.Children.Count == 0 || tempPart.Children.Count == realPart.Children.Count) {
                 break;
             }
             else {
-                string realChildName = realPart.Children[n].Name;
-                TempPart tempChildPart = new TempPart("");
-
-                if (GetFirstUnaccountedForChild(realChildName, tempChildren, ref tempChildPart)) {
-                    Part realPartToPassOn = new Part();
-                    TryGetChildByName(tempChildPart.TempPartName, childToPassOn)
-                    AssignToTempParts( );
-                    tempPart.Children[n].ProcessPart();
+                string newChildName = child.Name;
+                tempPart.AddChild(newChildName);
+                TempPart workingChild = tempPart.Children.FirstOrDefault(c => c.TempPartName == newChildName);
+                workingChild.ProcessPart();
+                if(child.Children.Count != 0) {
+                    AssignToTempParts(child, ref res);
                 }
             }
-        } while (exit != true);
-        return true;
+        }
     }
 
     public bool GetFirstUnaccountedForChild(string realChildName, List<TempPart> tempChildren, ref TempPart unaccontedChild) {
