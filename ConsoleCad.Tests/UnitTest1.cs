@@ -31,6 +31,15 @@ namespace ConsoleCad.Tests {
             drawerHandle.AddMarker("Grip", 0, 0, 0);
         }
 
+        // --------------------------------------------------------
+        // 0. ReturnAllChildren returns a string List to nth gen
+        // --------------------------------------------------------
+        [Test]
+        public void DoesSomething() {
+            IEnumerable<string> result = PartExtensions.ReturnAllChildren(desk);
+            var desksChildren = new List<string> { "Desk", "Drawer", "Handle", "Grip" };
+            Assert.That(result.ToList(), Is.EqualTo(desksChildren));
+        }
 
         // --------------------------------------------------------
         // 1. Root world coordinates should match transform offset
