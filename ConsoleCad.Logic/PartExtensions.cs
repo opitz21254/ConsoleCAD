@@ -5,41 +5,43 @@ namespace ConsoleCad.Logic;
 public static class PartExtensions {
     // Flattens a many layerd higharchical structure into 1d <List>
     // I was thinking about this backwards. I may not even need this code.
-    public static List<string> ReturnAllChildren(this Part part) {
-        List<string> result = new List<string> { part.Name };
+    public static IEnumerable<string> ReturnAllChildren(this Part part) {
+        // Return the parent’s own name
+        yield return part.Name;
 
+        // Walk each direct child
         foreach (Part rootPart in part.Children) {
-            TempPart tempParent = new TempPart(rootPart.Name);
-            result.Add(rootPart.Name);
-            AssignToTempParts(rootPart, tempParent, ref result);
+            yield return rootPart.Name;
+            foreach (var descendant in AssignToTempParts(rootPart)) {
+                yield return descendant;
+            }
         }
-
-        return result;
     }
 
     // Takes a TempPart object and creates its children. Parent was already modeled in TempPart hiarchey
     // tempPart is unfinished and does not necessaraly have all children created
-    public static bool AssignToTempParts(Part parentPart, TempPart tempParent, ref List<string> res) {
-        bool exit = false;
+    private static IEnumerable<string> AssignToTempParts(Part parentPart) {
+        
+        TempPart tempParent = new TempPart(parentPart.Name);
 
         foreach (Part child in parentPart.Children) {
             bool childCreationFinished =
                 parentPart.Children.Count == 0
                 || tempParent.AllChildrenProcessed;
 
-            if (childCreationFinished) {
+            if (childCreationFinished)
                 continue;
-            }
-            else {
-                var tempChild = tempParent.AddChild(child.Name);
-                res.Add(child.Name);
-                tempChild.ProcessPart();
 
-                if (child.Children.Count != 0) {
-                    AssignToTempParts(child, tempChild, ref res);
-                }
+            TempPart tempChild = tempParent.AddChild(child.Name);
+            tempChild.ProcessPart();
+
+            yield return child.Name;
+
+            if (child.Children.Count != 0) {
+                foreach (string name in AssignToTempParts(child))
+                    yield return name;
             }
+        
         }
-        return exit;
     }
 }

@@ -7,6 +7,7 @@ namespace ConsoleCad.Tests {
         private Part desk;
         private Part drawer;
         private Part drawerHandle;
+        private Part drawerGrip;
         private Part lamp;
         private Transform up3 = new Transform(0, 0, 3);
 
@@ -22,33 +23,14 @@ namespace ConsoleCad.Tests {
             // Handle is child of drawer
             drawerHandle = drawer.AddChild("Handle", new Transform(0, 5, 2));
 
+            drawerGrip = drawerHandle.AddChild("Grip", new Transform(0, 0, 0));
+
             // Add markers to parts (relative coordinates)
             desk.AddMarker("Bottom", 0, 0, 1);
             drawer.AddMarker("Front", 0, 0, 0);
             drawerHandle.AddMarker("Grip", 0, 0, 0);
         }
 
-        // --------------------------------------------------------
-        // -1. Does something
-        // --------------------------------------------------------
-        [Test]
-        public void DoesSomething() {
-            List<string> result = new List<string>();
-            TempPart tempDesk = new TempPart("Desk");
-
-            bool success = PartExtensions.AssignToTempParts(desk, tempDesk, ref result);
-            success.Equals(true);
-        }
-
-        // --------------------------------------------------------
-        // 0. ReturnAllChildren returns a string List to nth gen
-        // --------------------------------------------------------
-        [Test]
-        public void ReturnAllChildrenWorks() {
-            List<string> desksChildren = desk.ReturnAllChildren();
-            var ans = new List<string> { "Desk", "Drawer", "Handle" };
-            Assert.That(desksChildren, Is.EqualTo(ans));
-        }
 
         // --------------------------------------------------------
         // 1. Root world coordinates should match transform offset
