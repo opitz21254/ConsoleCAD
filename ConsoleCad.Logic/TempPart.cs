@@ -25,7 +25,6 @@ public class TempPart {
 
     public void ProcessPart() {
         hasBeenProcessed = true;
-
         bool allSiblingsProcessed = true;
 
         foreach (TempPart sibling in Parent.Children) {

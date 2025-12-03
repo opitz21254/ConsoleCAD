@@ -6,7 +6,7 @@ public static class PartExtensions {
     // Flattens a many layerd higharchical structure into 1d <List>
     // I was thinking about this backwards. I may not even need this code.
     public static List<string> ReturnAllChildren(this Part part) {
-        List<string> result = new List<string>();
+        List<string> result = new List<string> { part.Name };
 
         foreach (Part rootPart in part.Children) {
             TempPart tempParent = new TempPart(rootPart.Name);

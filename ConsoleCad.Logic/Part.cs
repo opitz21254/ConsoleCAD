@@ -19,13 +19,13 @@ public class Part {
     }
 
     // Recurrsive
-    public Transform WorldTransform {
-        get {
-            if (Parent == null)
-                return LocalTransform;
-            return Parent.WorldTransform + LocalTransform;
-        }
+    public Transform GetAbsoluteCoordinates() {
+        if (Parent == null)
+            return LocalTransform;
+
+        return Parent.GetAbsoluteCoordinates() + LocalTransform;
     }
+
 
     public Part AddChild(string name, Transform localOffset) {
         var child = new Part(name, localOffset) {
@@ -33,11 +33,6 @@ public class Part {
         };
         Children.Add(child);
         return child;
-    }
-
-    public bool TryGetChildByName(string childName, out Part child) {
-        child = Children.FirstOrDefault(c => c.Name == childName);
-        return child != null;
     }
 
     public bool TryGetMarker(string markerName, out Marker marker) {
@@ -55,10 +50,5 @@ public class Part {
 
     public bool DeleteMarker(string markerName) {
         return markerLookup.Remove(markerName);
-    }
-
-    public Marker GetAbsoluteCoordinates(string markerName) {
-        var local = markerLookup[markerName];
-        return WorldTransform.Apply(local);
     }
 }

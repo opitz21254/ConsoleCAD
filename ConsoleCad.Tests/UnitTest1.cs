@@ -56,10 +56,12 @@ namespace ConsoleCad.Tests {
         [Test]
         public void RootHasCorrectWorldCoordinates()
         {
-            Marker deskMarkers = desk.WorldTransform.Offset;
-            Assert.Equals(2, deskMarkers.X);
-            Assert.Equals(-5, deskMarkers.Y);
-            Assert.Equals(0, deskMarkers.Z);
+            // Offset is a property of Transform.cs that is just a marker storing
+            // the "root location" of the part.
+            Marker deskOffset = desk.GetAbsoluteCoordinates().Offset;;
+            Assert.That(deskOffset.X, Is.EqualTo(2));
+            Assert.That(deskOffset.Y, Is.EqualTo(-5));
+            Assert.That(deskOffset.Z, Is.EqualTo(0));
         }
 
         /*
