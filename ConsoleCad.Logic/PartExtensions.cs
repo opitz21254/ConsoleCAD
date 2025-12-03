@@ -4,11 +4,19 @@ namespace ConsoleCad.Logic;
 
 public static class PartExtensions {
     // Flattens a many layerd higharchical structure into 1d <List>
-    public static List<string> ReturnAllChildren(this Part part) {
+    public static List<string> ReturnAllChildren(this Part part, bool isRootWorld = false) {
         List<string> result = new List<string>();
-        TempPart tempParent = new TempPart(part.Name);
-        result.Add(part.Name);
-        AssignToTempParts(part, tempParent, ref result);
+        if (!isRootWorld) {
+            result.Add(part.Name);
+        }
+        else {
+            result.Add("RootWorld");
+        }
+        foreach (Part rootPart in part.Children) {
+            TempPart tempParent = new TempPart(rootPart.Name);
+            result.Add(rootPart.Name);
+            AssignToTempParts(rootPart, tempParent, ref result);
+        }
         return result;
     }
 
