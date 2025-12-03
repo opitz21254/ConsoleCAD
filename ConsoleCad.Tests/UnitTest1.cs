@@ -39,7 +39,6 @@ namespace ConsoleCad.Tests {
             bool success = PartExtensions.AssignToTempParts(desk, tempDesk, ref result);
             success.Equals(true);
         }
-        /*
 
         // --------------------------------------------------------
         // 0. ReturnAllChildren returns a string List to nth gen
@@ -50,6 +49,7 @@ namespace ConsoleCad.Tests {
             var ans = new List<string> { "Desk", "Drawer", "Handle" };
             Assert.That(desksChildren, Is.EqualTo(ans));
         }
+        /*
 
         // --------------------------------------------------------
         // 1. Root world coordinates should match transform offset

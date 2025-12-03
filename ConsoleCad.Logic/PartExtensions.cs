@@ -4,16 +4,18 @@ namespace ConsoleCad.Logic;
 
 public static class PartExtensions {
     // Flattens a many layerd higharchical structure into 1d <List>
-    // public static List<string> ReturnAllChildren(this Part part) {
-    //     List<string> result = new List<string>();
-    //     foreach (Part child in part.Children) {
-    //         bool worked = AssignToTempParts(child, ref result);
-    //     }
-    //     return result;
-    // }
+    public static List<string> ReturnAllChildren(this Part part) {
+        List<string> result = new List<string>();
+        foreach (Part child in part.Children) {
+            TempPart tempChild = new TempPart(child.Name);
+            bool worked = AssignToTempParts(child, tempChild, ref result);
+        }
+        return result;
+    }
 
     // Takes a TempPart object and creates its children. Parent was already modeled in TempPart hiarchey
     // tempPart is unfinished and does not necessaraly have all children created
+
     public static bool AssignToTempParts(Part parentPart, TempPart tempParent, ref List<string> res) {
         bool exit = false;
         
