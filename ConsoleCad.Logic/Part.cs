@@ -1,6 +1,3 @@
-using System.Diagnostics.Tracing;
-using System.Dynamic;
-using System.Security.Cryptography.X509Certificates;
 
 namespace ConsoleCad.Logic;
 
@@ -8,7 +5,6 @@ namespace ConsoleCad.Logic;
 // (stored as absolute coordinates) are baised off of.
 public class Part {
     public string Name { get; }
-    public int NthChild { get; set; } = 0;
     public Transform LocalTransform { get; private set; }
 
     public Part Parent { get; private set; }
@@ -35,40 +31,10 @@ public class Part {
         var child = new Part(name, localOffset) {
             Parent = this
         };
-        child.NthChild = Parent.Children.Count() + 1;
         Children.Add(child);
         return child;
     }
 
-    // Flattens a many layerd higharchical structure into 1d <List>
-    public List<string> ReturnAllChildren(Part part) {
-        List<string> result = new List<string>();
-        foreach (Part child in part.Children) {
-            AssignToTempParts(child, ref result);
-        }
-        return result;
-    }
-
-    // Takes in a part and accuratley models a copy in temp part of all the children to the nth generation
-    public bool AssignToTempParts(Part realPart, ref List<string> res) {
-        TempPart tempPart = new TempPart(realPart.Name);
-        bool exit = false; //Might not need
-
-        foreach(Part child in realPart.Children) {
-            if (realPart.Children.Count == 0 || tempPart.Children.Count == realPart.Children.Count) {
-                break;
-            }
-            else {
-                string newChildName = child.Name;
-                tempPart.AddChild(newChildName);
-                TempPart workingChild = tempPart.Children.FirstOrDefault(c => c.TempPartName == newChildName);
-                workingChild.ProcessPart();
-                if(child.Children.Count != 0) {
-                    AssignToTempParts(child, ref res);
-                }
-            }
-        }
-    }
 
     public bool GetFirstUnaccountedForChild(string realChildName, List<TempPart> tempChildren, ref TempPart unaccontedChild) {
         if (tempChildren.FirstOrDefault(c => c.TempPartName == realChildName) != null) {

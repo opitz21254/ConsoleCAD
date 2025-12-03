@@ -1,4 +1,4 @@
-using System.Diagnostics;
+
 
 namespace ConsoleCad.Logic;
 
@@ -6,7 +6,8 @@ namespace ConsoleCad.Logic;
 // (stored as absolute coordinates) are baised off of.
 public class TempPart {
     public string TempPartName { get; }
-    public List<string> ChildrenAccountedFor { get; private set; } = new List<string>();
+    public bool AllChildrenProcessed { get; private set; }
+    private bool hasBeenProcessed { get; set; } = false;
     public TempPart Parent { get; private set; }
     public List<TempPart> Children { get; } = new();
 
@@ -22,8 +23,15 @@ public class TempPart {
         return child;
     }
 
-    public bool ProcessPart() {
-        Parent.ChildrenAccountedFor.Add(TempPartName);
-        return true;
+    public void ProcessPart() {
+        hasBeenProcessed = true;
+
+        bool allSiblingsProcessed = true;
+
+        foreach (TempPart sibling in Parent.Children) {
+            allSiblingsProcessed &= sibling.hasBeenProcessed;
+        }
+        
+        Parent.AllChildrenProcessed = allSiblingsProcessed;
     }
 }

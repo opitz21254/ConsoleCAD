@@ -1,6 +1,4 @@
 
-using System.Security;
-
 namespace ConsoleCad.Logic;
 
 // baby mobile Philosophy
@@ -11,7 +9,7 @@ namespace ConsoleCad.Logic;
 public class ProjRunner {
     public string ProjectName { get; private set; }
     public List<Part> Parts { get; private set; }
-     public List<Viewer> Viewers { get; } = new List<Viewer>();
+    // public List<Viewer> Viewers { get; } = new List<Viewer>();
     public Dictionary<string, Part> PartDictionary { get; private set; }
 
     public ProjRunner(string projectName, List<Part> parts = null) {
@@ -21,7 +19,7 @@ public class ProjRunner {
 
         PartDictionary = new Dictionary<string, Part>();
         foreach (var part in Parts) {
-            PartDictionary[part.PartName] = part;
+            PartDictionary[part.Name] = part;
         }
     }
 }
