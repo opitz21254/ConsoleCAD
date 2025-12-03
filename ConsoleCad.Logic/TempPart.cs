@@ -6,7 +6,7 @@ namespace ConsoleCad.Logic;
 // (stored as absolute coordinates) are baised off of.
 public class TempPart {
     public string TempPartName { get; }
-    public bool AllChildrenProcessed { get; private set; }
+    public bool AllChildrenProcessed { get; private set; } = false;
     private bool hasBeenProcessed { get; set; } = false;
     public TempPart Parent { get; private set; }
     public List<TempPart> Children { get; } = new();

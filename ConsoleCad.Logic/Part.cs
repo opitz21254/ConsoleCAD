@@ -35,24 +35,13 @@ public class Part {
         return child;
     }
 
-
-    public bool GetFirstUnaccountedForChild(string realChildName, List<TempPart> tempChildren, ref TempPart unaccontedChild) {
-        if (tempChildren.FirstOrDefault(c => c.TempPartName == realChildName) != null) {
-            unaccontedChild = tempChildren.FirstOrDefault(c => c.TempPartName == realChildName);
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
     public bool TryGetChildByName(string childName, out Part child) {
         child = Children.FirstOrDefault(c => c.Name == childName);
         return child != null;
     }
 
-    public bool TryGetMarker(string markerName, out Marker tempMarker) {
-        return markerLookup.TryGetValue(markerName, out tempMarker);
+    public bool TryGetMarker(string markerName, out Marker marker) {
+        return markerLookup.TryGetValue(markerName, out marker);
     }
 
     
