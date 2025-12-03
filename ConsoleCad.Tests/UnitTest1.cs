@@ -55,20 +55,20 @@ namespace ConsoleCad.Tests {
             Assert.That(deskOffset.Z, Is.EqualTo(0));
         }
 
-        /*
         // --------------------------------------------------------
         // 2. Child inherits parent transform
         // --------------------------------------------------------
         [Test]
         public void ChildInheritsParentTransform()
         {
-            var handleWorld = drawerHandle.WorldTransform.Offset;
+            var handleWorld = drawerHandle.GetAbsoluteCoordinates().Offset;
 
-            Assert.Equals(2, handleWorld.X);   // chair.X
-            Assert.Equals(-5 + 5, handleWorld.Y); // chair.Y + offset
-            Assert.Equals(0 + 10 + 2, handleWorld.Z);
+            Assert.That(handleWorld.X, Is.EqualTo(2 + 0 + 0));   // chair.X
+            Assert.That(handleWorld.Y, Is.EqualTo(-5 + 0 + 5)); // chair.Y + offset
+            Assert.That(handleWorld.Z, Is.EqualTo(0 + 10 + 2));
         }
 
+        /*
         // --------------------------------------------------------
         // 3. Moving a root moves entire subtree
         // --------------------------------------------------------
