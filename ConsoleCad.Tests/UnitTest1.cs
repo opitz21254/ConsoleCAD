@@ -45,7 +45,7 @@ namespace ConsoleCad.Tests {
         // --------------------------------------------------------
         [Test]
         public void ReturnAllChildrenWorks() {
-            List<string> desksChildren = drawer.ReturnAllChildren();
+            List<string> desksChildren = desk.ReturnAllChildren();
             var ans = new List<string> { "Desk", "Drawer", "Handle" };
             Assert.That(desksChildren, Is.EqualTo(ans));
         }

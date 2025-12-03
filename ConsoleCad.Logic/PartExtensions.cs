@@ -6,10 +6,9 @@ public static class PartExtensions {
     // Flattens a many layerd higharchical structure into 1d <List>
     public static List<string> ReturnAllChildren(this Part part) {
         List<string> result = new List<string>();
-        foreach (Part child in part.Children) {
-            TempPart tempChild = new TempPart(child.Name);
-            bool worked = AssignToTempParts(child, tempChild, ref result);
-        }
+        TempPart tempParent = new TempPart(part.Name);
+        result.Add(part.Name);
+        AssignToTempParts(part, tempParent, ref result);
         return result;
     }
 
