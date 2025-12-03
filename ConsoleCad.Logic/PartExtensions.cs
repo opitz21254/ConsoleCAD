@@ -4,42 +4,22 @@ namespace ConsoleCad.Logic;
 
 public static class PartExtensions {
     // Flattens a many layerd higharchical structure into 1d <List>
-    public static List<string> ReturnAllChildren(this Part part, bool isRootWorld = false) {
+    // I was thinking about this backwards. I may not even need this code.
+    public static List<string> ReturnAllChildren(this Part part) {
         List<string> result = new List<string>();
-        if (!isRootWorld) {
-            result.Add(part.Name);
-        }
-        else {
-            result.Add("RootWorld");
-        }
-        foreach (Part rootPart in part.Children) {
-            TempPart tempParent = new TempPart(rootPart.Name);
-            result.Add(rootPart.Name);
-            Transform zeroVector = new Transform(0, 0, 0);
-            AssignToTempParts(rootPart, tempParent, zeroVector, ref result);
-        }
-        return result;
-    }
 
-    public static List<string> Move(this Part part, Transform transform, bool isRootWorld = false) {
-        List<string> result = new List<string>();
-        if (!isRootWorld) {
-            result.Add(part.Name);
-        }
-        else {
-            result.Add("RootWorld");
-        }
         foreach (Part rootPart in part.Children) {
             TempPart tempParent = new TempPart(rootPart.Name);
             result.Add(rootPart.Name);
-            AssignToTempParts(rootPart, tempParent, transform, ref result);
+            AssignToTempParts(rootPart, tempParent, ref result);
         }
+
         return result;
     }
 
     // Takes a TempPart object and creates its children. Parent was already modeled in TempPart hiarchey
     // tempPart is unfinished and does not necessaraly have all children created
-    public static bool AssignToTempParts(Part parentPart, TempPart tempParent, Transform transform, ref List<string> res) {
+    public static bool AssignToTempParts(Part parentPart, TempPart tempParent, ref List<string> res) {
         bool exit = false;
 
         foreach (Part child in parentPart.Children) {
@@ -56,11 +36,10 @@ public static class PartExtensions {
                 tempChild.ProcessPart();
 
                 if (child.Children.Count != 0) {
-                    AssignToTempParts(child, tempChild, transform, ref res);
+                    AssignToTempParts(child, tempChild, ref res);
                 }
             }
         }
         return exit;
     }
-
 }

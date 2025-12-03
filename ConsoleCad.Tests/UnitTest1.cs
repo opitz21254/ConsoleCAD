@@ -49,7 +49,6 @@ namespace ConsoleCad.Tests {
             var ans = new List<string> { "Desk", "Drawer", "Handle" };
             Assert.That(desksChildren, Is.EqualTo(ans));
         }
-        /*
 
         // --------------------------------------------------------
         // 1. Root world coordinates should match transform offset
@@ -57,12 +56,13 @@ namespace ConsoleCad.Tests {
         [Test]
         public void RootHasCorrectWorldCoordinates()
         {
-            var world = desk.WorldTransform.Offset;
-            Assert.Equals(2, world.X);
-            Assert.Equals(-5, world.Y);
-            Assert.Equals(0, world.Z);
+            Marker deskMarkers = desk.WorldTransform.Offset;
+            Assert.Equals(2, deskMarkers.X);
+            Assert.Equals(-5, deskMarkers.Y);
+            Assert.Equals(0, deskMarkers.Z);
         }
 
+        /*
         // --------------------------------------------------------
         // 2. Child inherits parent transform
         // --------------------------------------------------------
