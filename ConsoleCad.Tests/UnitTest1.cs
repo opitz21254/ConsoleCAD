@@ -34,8 +34,9 @@ namespace ConsoleCad.Tests {
         [Test]
         public void DoesSomething() {
             List<string> result = new List<string>();
-            bool success = PartExtensions.AssignToTempParts(drawer, ref result);
-            var ans = new List<string> { "Desk", "Drawer", "Handle" };
+            TempPart tempDesk = new TempPart("Desk");
+
+            bool success = PartExtensions.AssignToTempParts(desk, tempDesk, ref result);
             success.Equals(true);
         }
         /*

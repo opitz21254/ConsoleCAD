@@ -12,27 +12,26 @@ public static class PartExtensions {
     //     return result;
     // }
 
-    // Takes in a part and accuratley models a copy in temp part of all the children to the nth generation
-    public static bool AssignToTempParts(Part realPart, ref List<string> res) {
-        TempPart tempPart = new TempPart(realPart.Name);
-        bool exit = false; //Might not need
-
-        foreach (Part child in realPart.Children) {
+    // Takes a TempPart object and creates its children. Parent was already modeled in TempPart hiarchey
+    // tempPart is unfinished and does not necessaraly have all children created
+    public static bool AssignToTempParts(Part parentPart, TempPart tempParent, ref List<string> res) {
+        bool exit = false;
+        
+        foreach (Part child in parentPart.Children) {
             bool childCreationFinished =
-                realPart.Children.Count == 0
-                || tempPart.AllChildrenProcessed;
+                parentPart.Children.Count == 0
+                || tempParent.AllChildrenProcessed;
 
             if (childCreationFinished) {
                 continue;
             }
             else {
-                // Everything in ( ) just returns a string name
-                var tempChild = tempPart.AddChild(child.Name);
+                var tempChild = tempParent.AddChild(child.Name);
                 res.Add(child.Name);
                 tempChild.ProcessPart();
 
                 if (child.Children.Count != 0) {
-                    AssignToTempParts(child, ref res);
+                    AssignToTempParts(child, tempChild, ref res);
                 }
             }
         }
