@@ -17,7 +17,8 @@ public static class PartExtensions {
         foreach (Part child in parent.Children) {
             yield return child.Name;
 
-            // Recurse if the child has descendants
+            // Why is the Recurrsive method call inside the foreach loop signature?
+            // Think of: foreach (var x in GetAllFiles(path)) { }
             foreach (string everythingThatChildsSubtreeProduces in YieldAllChildren(child))
                 yield return everythingThatChildsSubtreeProduces;
         }
