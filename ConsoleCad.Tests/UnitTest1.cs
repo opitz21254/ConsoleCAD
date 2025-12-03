@@ -68,7 +68,6 @@ namespace ConsoleCad.Tests {
             Assert.That(handleWorld.Z, Is.EqualTo(0 + 10 + 2));
         }
 
-        /*
         // --------------------------------------------------------
         // 3. Moving a root moves entire subtree
         // --------------------------------------------------------
@@ -82,6 +81,7 @@ namespace ConsoleCad.Tests {
             Assert.Equals(0 + 3, handle.Z);   // entire subtree raised
         }
 
+        /*
         // --------------------------------------------------------
         // 4. Moving a child does NOT affect parent or siblings
         // --------------------------------------------------------
