@@ -37,7 +37,7 @@ namespace ConsoleCad.Tests {
         [Test]
         public void DoesSomething() {
             IEnumerable<string> result = PartExtensions.ReturnAllChildren(desk);
-            var desksChildren = new List<string> { "Desk", "Drawer", "Handle", "Grip" };
+            List<string> desksChildren = [ "Desk", "Drawer", "Handle", "Grip" ];
             Assert.That(result.ToList(), Is.EqualTo(desksChildren));
         }
 
